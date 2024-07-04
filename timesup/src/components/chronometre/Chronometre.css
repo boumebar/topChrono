@@ -1,0 +1,11 @@
+
+.time {
+    font-size:100px;
+    font-weight: bold;
+    color: #f3721c;
+    text-shadow: 
+    -3px -3px 0 #ffffff, /* ombre blanche en haut à gauche */
+     3px -3px 0 #ffffff, /* ombre blanche en haut à droite */
+    -3px  3px 0 #ffffff, /* ombre blanche en bas à gauche */
+     3px  3px 0 #ffffff; /* ombre blanche en bas à droite */
+  }

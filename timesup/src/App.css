@@ -1,0 +1,23 @@
+.App {
+  background: linear-gradient(to bottom right, #9bcf4a 40%, #a4e371 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  text-align: center;
+}
+
+h1 {
+  margin: 40px auto;
+  font-size:100px;
+  font-weight: bold;
+  color: #f3721c;
+  text-shadow: 
+  -3px -3px 0 #ffffff, /* ombre blanche en haut à gauche */
+    3px -3px 0 #ffffff, /* ombre blanche en haut à droite */
+  -3px  3px 0 #ffffff, /* ombre blanche en bas à gauche */
+    3px  3px 0 #ffffff; /* ombre blanche en bas à droite */
+}
