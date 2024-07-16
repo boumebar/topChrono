@@ -1,4 +1,6 @@
+
 .App {
+  margin: 0;
   background: linear-gradient(to bottom right, #9bcf4a 40%, #a4e371 100%);
   min-height: 100vh;
   display: flex;
@@ -20,4 +22,29 @@ h1 {
     3px -3px 0 #ffffff, /* ombre blanche en haut à droite */
   -3px  3px 0 #ffffff, /* ombre blanche en bas à gauche */
     3px  3px 0 #ffffff; /* ombre blanche en bas à droite */
+}
+
+button {
+  width: 230px;
+  height: 230px;
+  font-weight: bold;
+  font-size: 1.7em; /* Taille du texte du bouton */
+  padding: 20px 30px; /* Taille du bouton */
+  margin-top: 20px;
+  cursor: pointer;
+  border: 6px solid #f3721c; /* Bordure orange */
+  background-color: white; /* Fond blanc */
+  color: #f3721c; /* Texte orange */
+  border-radius: 50%; /* Bouton rond */
+  text-transform: uppercase; /* Texte en majuscule */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre pour donner du relief */
+  transition: transform 0.2s; /* Transition pour l'effet de clic */
+}
+
+button:hover {
+  transform: scale(1.05); /* Effet de survol pour agrandir légèrement */
+}
+
+button:active {
+  transform: scale(0.95); /* Effet de clic pour rétrécir légèrement */
 }

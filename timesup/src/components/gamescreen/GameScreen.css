@@ -1,0 +1,38 @@
+.game{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    color: #fff;
+    text-align: center;     
+}
+.game h1{
+    font-size: 90px;
+    margin: 15px auto;
+}
+
+.word {
+    width: 250px;
+    background-color: #ffffff;
+    color: #388e3c;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 0px 20px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+    display: inline-block;
+}
+.number {
+    background-color: #f3721c;
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 50%;
+    position: absolute;
+    bottom: -10px;
+    right: -10px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  }
