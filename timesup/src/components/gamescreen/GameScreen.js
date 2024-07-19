@@ -1,23 +1,19 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Chronometer from "../chronometre/Chronometer";
 import WordDisplay from "../worddisplay/WordDisplay";
+import WordsContext from '../context/wordsContext.js';
 import './GameScreen.css';
-export default function GameScreen({ team, onEndTurn,initialWords }) {
 
-     // Liste complète des mots islamiques
-     const allIslamicWords = useMemo(() => [
-        "Coran", "Mosquée", "Ramadan", "Prière", "Hajj", "Prophète", "Mecque", "Médine", "Ayat", "Shahada",
-        "Zakat", "Halal", "Hadith", "Iftar", "Aïd", "Salat", "Imam", "Calife", "Fatwa", "Kaaba",
-        "Jumu'ah", "Sounna", "Dua", "Barakah", "Fajr", "Hijab", "Sadaqah", "Fiqh", "Sharia", "Tawheed",
-        "Oummah", "Imane", "Jannah", "Jahannam", "Wudu", "Sawm", "Ijtihad", "Qibla", "Tasbih", "Dhikr",
-        "Madrasa", "Rakat", "Sujud", "Minaret", "Adhan", "Muadhin", "Taqwa", "Akhirah", "Jinn", "Juz",
-        "Khutbah", "Ulema"
-    ], []);
+export default function GameScreen({ team, onEndTurn,wordsForNextTurn }) {
 
+    const initialsWords = useContext(WordsContext);
+
+    // Ajouter un console.log pour vérifier les valeurs du contexte
+    console.log('WordsContext:', initialsWords);
 
    // Initialise l'état 'words' comme un tableau vide. 
     // Cet état contiendra la liste des mots à utiliser pendant le jeu.
-    const [words, setWords] = useState([]);
+    const [words, setWords] = useState(initialsWords);
 
     // Initialise l'état 'currentWordIndex' à 0. 
     // Cet état maintient l'index du mot actuellement en cours d'utilisation dans le tableau 'words'.
@@ -34,21 +30,20 @@ export default function GameScreen({ team, onEndTurn,initialWords }) {
     // 'allIslamicWords.sort(() => 0.5 - Math.random())' mélange les mots de manière aléatoire.
     // 'slice(0, 30)' prend les 30 premiers mots du tableau mélangé.
     useEffect(() => {
-        if (initialWords) {
-            setWords(initialWords);
-            setRemainingWords(initialWords);
+        if (wordsForNextTurn) {
+            setWords(wordsForNextTurn);
+            setRemainingWords(wordsForNextTurn);
         } else {
-            const newWords = allIslamicWords.sort(() => 0.5 - Math.random()).slice(0, 30);
-            setWords(newWords);
-            setRemainingWords(newWords);
+            setRemainingWords(words);
            
         }
-    }, [initialWords ]);
+    }, [wordsForNextTurn, words]);
 
      // Log the updated words and remainingWords
      useEffect(() => {
         console.log('Updated remainingWords:', remainingWords);
-    }, [ remainingWords]);
+        console.log('Updated words:', words);
+    }, [ remainingWords, words]);
     // Fonction appelée lorsqu'une réponse correcte est donnée.
     // Passe simplement au mot suivant et ajoute le mot à la liste des mots correctement trouvés.
     const handleCorrectClick = () => {
