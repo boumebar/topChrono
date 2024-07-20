@@ -4,6 +4,9 @@ import Chronometre from '../chronometre/Chronometre';
 import TeamTurn from '../teamTurn/TeamTurn';
 
 export default function Card(props) {
+
+
+    console.log('jesuisla');
     // Liste complète des mots islamiques
     const allIslamicWords = useMemo(() => [
         "Coran", "Mosquée", "Ramadan", "Prière", "Hajj", "Prophète", "Mecque", "Médine", "Ayat", "Shahada",
