@@ -6,8 +6,6 @@ import GameScreen from './components/gamescreen/GameScreen';
 import RoundInfoScreen from './components/roundinfoscreen/RoundInfoScreen';
 import NextTeamScreen from './components/nextteamscreen/NextTeamScreen';
 import EndRoundScreen from './components/endroundscreen/EndRoundScreen';
-import NextRoundScreen from './components/nextroundscreen/NextRoundScreen';
-import FinalScoreScreen from './components/finalscorescreen/FinalScoreScreen';
 
 import WordsContext from './components/context/wordsContext';
 
@@ -50,16 +48,26 @@ function App() {
   
   }
 
+  const handleRestart = () => {
+    setScreen('start');
+    setCurrentRound(1);
+    setCurrentTeam(1);
+    setTeamScores([0, 0]);
+    setRoundScores([0, 0]);
+    setCorrectWords([]);
+    setRemainingWords([]);
+  }
+
  // Fonction pour gérer la fin d'un tour
   const handleEndTurn = (score,remainingWords, correctWords) => {
 
   console.log('cest la fin du tour ' + remainingWords + 'le score de lequipe est de ' + score);
-
   
   // Crée une copie des scores actuels de la manche
   const newScores = [...roundScores];
   // Ajoute le score du tour actuel au score de l'équipe actuelle
   newScores[currentTeam - 1] += score;
+
   // Met à jour les scores de la manche avec les nouveaux scores
   setRoundScores(newScores);
 
@@ -76,10 +84,7 @@ function App() {
       console.log('La partie est gagnee il reste ' + remainingWords);
       
       // Met à jour les scores des équipes avec les scores de la manche actuelle
-      setTeamScores(prevScores => [
-          prevScores[0] + newScores[0],
-          prevScores[1] + newScores[1]
-      ]);
+      setTeamScores(newScores);
 
       // Change l'écran pour indiquer la fin de la manche
       setScreen('endRound');
@@ -138,6 +143,7 @@ function App() {
                     round={currentRound}
                     scores={teamScores}
                     onNextRound={handleNextRound}
+                    onRestart={handleRestart}
                 />
             )}
             

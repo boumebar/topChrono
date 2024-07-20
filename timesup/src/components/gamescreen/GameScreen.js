@@ -4,12 +4,11 @@ import WordDisplay from "../worddisplay/WordDisplay";
 import WordsContext from '../context/wordsContext.js';
 import './GameScreen.css';
 
-export default function GameScreen({ team, onEndTurn,wordsForNextTurn }) {
+export default function GameScreen({ round, team, onEndTurn,wordsForNextTurn }) {
+
 
     const initialsWords = useContext(WordsContext);
 
-    // Ajouter un console.log pour vérifier les valeurs du contexte
-    console.log('WordsContext:', initialsWords);
 
    // Initialise l'état 'words' comme un tableau vide. 
     // Cet état contiendra la liste des mots à utiliser pendant le jeu.
@@ -34,15 +33,17 @@ export default function GameScreen({ team, onEndTurn,wordsForNextTurn }) {
             setWords(wordsForNextTurn);
             setRemainingWords(wordsForNextTurn);
         } else {
+            if(round > 1){
+                const shuffledWords = words.sort(() => Math.random() - 0.5);
+                setRemainingWords(shuffledWords);
+            }
             setRemainingWords(words);
-           
         }
     }, [wordsForNextTurn, words]);
 
      // Log the updated words and remainingWords
      useEffect(() => {
-        console.log('Updated remainingWords:', remainingWords);
-        console.log('Updated words:', words);
+        console.log('Updated remainingWords:', remainingWords); 
     }, [ remainingWords, words]);
     // Fonction appelée lorsqu'une réponse correcte est donnée.
     // Passe simplement au mot suivant et ajoute le mot à la liste des mots correctement trouvés.
@@ -62,8 +63,6 @@ export default function GameScreen({ team, onEndTurn,wordsForNextTurn }) {
     
     // Fonction appelée lorsqu'une réponse incorrecte est donnée.
     // Passe simplement au mot suivant sans changer le score.
-
-
     const handleIncorrectClick = () => {  
         const currentWord = remainingWords[currentWordIndex];
     
@@ -78,8 +77,6 @@ export default function GameScreen({ team, onEndTurn,wordsForNextTurn }) {
 
         nextWord();
     };
- 
-
      // Fonction pour passer au mot suivant.
     // Vérifie si l'index du mot actuel est inférieur à la longueur de 'words' moins 1.
     // Si c'est le cas, incrémente 'currentWordIndex'.
