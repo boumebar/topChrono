@@ -75,6 +75,7 @@
   }
   
   .incorrect {
+    margin-top: 0px;
     background-color: #f44336;
     color: #fff;
   }

@@ -11,19 +11,30 @@ import WordsContext from './components/context/wordsContext';
 
 function App() {
 
-  const wordsList = useMemo(() => [
+  // Initialisation des mots à utiliser
+  const allIslamicWords = useMemo(() => [
     "Coran", "Mosquée", "Ramadan", "Prière", "Hajj", "Prophète", "Mecque", "Médine", "Ayat", "Shahada",
     "Zakat", "Halal", "Hadith", "Iftar", "Aïd", "Salat", "Imam", "Calife", "Fatwa", "Kaaba",
     "Jumu'ah", "Sounna", "Dua", "Barakah", "Fajr", "Hijab", "Sadaqah", "Fiqh", "Sharia", "Tawheed",
-    "Oummah", "Imane", "Jannah", "Jahannam", "Wudu", "Sawm", "Ijtihad", "Qibla", "Tasbih", "Dhikr",
+    "Oummah", "Imane", "Jannah", "Jahannam", "Wudu", "Sawm", "Qibla", "Tasbih", "Dhikr",
     "Madrasa", "Rakat", "Sujud", "Minaret", "Adhan", "Muadhin", "Taqwa", "Akhirah", "Jinn", "Juz",
-    "Khutbah", "Ulema"
+    "Khutbah", "Ulema", "Quran","Chat", "Chien", "Voiture", "Arbre", "Maison", "Livre", "École", "Ordinateur", "Soleil", "Lune", "Étoile", "Mer", "Montagne", "Rivière", "Pont", "Route", "Fleur", "Jardin", "Avion", "Bateau", "Train", "Vélo", "Moto", "Bus", "Musée", "Cinéma", "Restaurant", "Hôtel", "Plage", "Désert", "Forêt", "Neige", "Pluie", "Orage", "Vent", "Sable", "Roche", "Volcan", "Lac"
+
+
 ], []);
 
+  // Initialisation des mots à utiliser
+  const [wordsList, setWordsList] = useState(allIslamicWords);
 
+  // Fonction de rafraichissement des mots a la fin de chaque jeu
+  const [resetKey, setResetKey] = useState(0);
+
+  // Fonction qui mélange les mots en fonction de resetKey
   const initialWords = useMemo(() => {
     return wordsList.sort(() => 0.5 - Math.random()).slice(0, 30);
-  }, [wordsList]);
+  }, [resetKey]);
+
+
   const [screen, setScreen] = useState('start');
   const [currentRound, setCurrentRound] = useState(1);
   const [currentTeam, setCurrentTeam] = useState(1);
@@ -56,12 +67,13 @@ function App() {
     setRoundScores([0, 0]);
     setCorrectWords([]);
     setRemainingWords([]);
+    setResetKey(prevKey => prevKey + 1);
   }
 
  // Fonction pour gérer la fin d'un tour
   const handleEndTurn = (score,remainingWords, correctWords) => {
 
-  console.log('cest la fin du tour ' + remainingWords + 'le score de lequipe est de ' + score);
+  console.log('cest la fin du tour ' + remainingWords.length + 'le score de lequipe est de ' + score);
   
   // Crée une copie des scores actuels de la manche
   const newScores = [...roundScores];

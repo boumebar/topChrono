@@ -9,7 +9,7 @@ export default function GameScreen({ round, team, onEndTurn,wordsForNextTurn }) 
 
     const initialsWords = useContext(WordsContext);
 
-
+    console.log('les mots sont :', initialsWords);
    // Initialise l'état 'words' comme un tableau vide. 
     // Cet état contiendra la liste des mots à utiliser pendant le jeu.
     const [words, setWords] = useState(initialsWords);
@@ -33,58 +33,52 @@ export default function GameScreen({ round, team, onEndTurn,wordsForNextTurn }) 
             setWords(wordsForNextTurn);
             setRemainingWords(wordsForNextTurn);
         } else {
-            if(round > 1){
-                const shuffledWords = words.sort(() => Math.random() - 0.5);
-                setRemainingWords(shuffledWords);
-            }
-            setRemainingWords(words);
+            const shuffledWords = words.sort(() => Math.random() - 0.5);
+            setRemainingWords(shuffledWords);
+          
         }
     }, [wordsForNextTurn, words]);
 
      // Log the updated words and remainingWords
      useEffect(() => {
-        console.log('Updated remainingWords:', remainingWords); 
+        console.log('Updated remainingWords:', remainingWords);
+        console.log('ilreste ' + remainingWords.length + ' mots'); 
     }, [ remainingWords, words]);
     // Fonction appelée lorsqu'une réponse correcte est donnée.
     // Passe simplement au mot suivant et ajoute le mot à la liste des mots correctement trouvés.
     const handleCorrectClick = () => {
-        setCorrectWords(prevCorrectWords => [...prevCorrectWords, words[currentWordIndex]]);
+        const newCorrectWords = [...correctWords, remainingWords[currentWordIndex]];
+        const newRemainingWords = remainingWords.filter((_, index) => index !== currentWordIndex);
 
-        const newWords = remainingWords.filter((_, index) => index !== currentWordIndex);
-        setRemainingWords(newWords)
-        
+        setCorrectWords(newCorrectWords);
+        setRemainingWords(newRemainingWords);
 
-        // Ajouter 1 au score
-        setScore(score + 1);
-        nextWord();
-        
+        setScore(prevScore => {
+            const newScore = prevScore + 1;
+
+            if (newRemainingWords.length === 0) {
+                console.log('il ne reste plus de mots');
+                onEndTurn(newScore, newRemainingWords, newCorrectWords);
+            } else {
+                setCurrentWordIndex(0); // Always reset to 0 for simplicity
+            }
+
+            return newScore;
+        });
     };
 
-    
-    // Fonction appelée lorsqu'une réponse incorrecte est donnée.
-    // Passe simplement au mot suivant sans changer le score.
-    const handleIncorrectClick = () => {  
+    const handleIncorrectClick = () => {
         const currentWord = remainingWords[currentWordIndex];
-    
-        // Créer une nouvelle liste qui exclut le mot en cours
-        const newWords = remainingWords.filter((_, index) => index !== currentWordIndex);
-        
-        // Ajouter le mot en cours à la fin de la nouvelle liste
-        newWords.push(currentWord);
-        
-        // Mettre à jour l'état avec la nouvelle liste
-        setRemainingWords(newWords);
+        const newRemainingWords = remainingWords.filter((_, index) => index !== currentWordIndex);
+        newRemainingWords.push(currentWord);
 
-        nextWord();
-    };
-     // Fonction pour passer au mot suivant.
-    // Vérifie si l'index du mot actuel est inférieur à la longueur de 'words' moins 1.
-    // Si c'est le cas, incrémente 'currentWordIndex'.
-    // Sinon, termine le tour en appelant 'onEndTurn' avec le score actuel et les mots restants.
-    const nextWord = () => {
-        if (remainingWords.length === 0) {
-            console.log('il ne reste plus de mots ');
-            onEndTurn(score,remainingWords,correctWords);
+        setRemainingWords(newRemainingWords);
+
+        if (newRemainingWords.length === 0) {
+            console.log('il ne reste plus de mots');
+            onEndTurn(score, newRemainingWords, correctWords);
+        } else {
+            setCurrentWordIndex(0); // Always reset to 0 for simplicity
         }
     };
 
@@ -98,7 +92,7 @@ export default function GameScreen({ round, team, onEndTurn,wordsForNextTurn }) 
     return (   
         <div className='game'>
             <h1>
-                <Chronometer comptearebours={20} onTimeUp={handleTimeUp} />
+                <Chronometer comptearebours={40} onTimeUp={handleTimeUp} />
             </h1>
             <div className='word'>
                 <WordDisplay word={remainingWords[currentWordIndex]}
