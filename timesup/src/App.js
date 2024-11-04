@@ -8,6 +8,7 @@ import NextTeamScreen from './components/nextteamscreen/NextTeamScreen';
 import EndRoundScreen from './components/endroundscreen/EndRoundScreen';
 
 import WordsContext from './components/context/wordsContext';
+import GameRules from './components/gamerules/GameRules';
 
 function App() {
 
@@ -18,13 +19,63 @@ function App() {
     "Jumu'ah", "Sounna", "Dua", "Barakah", "Fajr", "Hijab", "Sadaqah", "Fiqh", "Sharia", "Tawheed",
     "Oummah", "Imane", "Jannah", "Jahannam", "Wudu", "Sawm", "Qibla", "Tasbih", "Dhikr",
     "Madrasa", "Rakat", "Sujud", "Minaret", "Adhan", "Muadhin", "Taqwa", "Akhirah", "Jinn", "Juz",
-    "Khutbah", "Ulema", "Quran","Chat", "Chien", "Voiture", "Arbre", "Maison", "Livre", "École", "Ordinateur", "Soleil", "Lune", "Étoile", "Mer", "Montagne", "Rivière", "Pont", "Route", "Fleur", "Jardin", "Avion", "Bateau", "Train", "Vélo", "Moto", "Bus", "Musée", "Cinéma", "Restaurant", "Hôtel", "Plage", "Désert", "Forêt", "Neige", "Pluie", "Orage", "Vent", "Sable", "Roche", "Volcan", "Lac"
+    "Khutbah", "Ulema", "Quran"
+
+
+], []);
+
+const personnagesDessinsAnimes = useMemo(() =>  [
+  "Mickey","Donald","Bob l'eponge",
+  "Dora",
+  "Peppa Pig",
+  "Simon",
+  "Petit Ours",
+  "T'choupi",
+  "Franklin",
+  "Bob le bricoleur",
+  "Sam le pompier",
+  "Olive et Tom",
+  "Tom Sawyer",
+  "Maya l'abeille",
+  "Gadget",
+  "Sonic",
+  "Mario",
+  "Kung Fu Panda",
+  "Shifu",
+  "Scooby-Doo",
+  "Winnie l'ourson",
+  "Tigrou",
+  "Porcinet",
+  "Bourriquet",
+  "Dingo",
+  "Pluto",
+  "Peter Pan",
+  "Clochette",
+  "Capitaine Crochet",
+  "Simba",
+  "Nala",
+  "Timon",
+  "Pumbaa",
+  "Odie",
+  "Tintin",
+  "Capitaine Haddock",
+  "Milou",
+  "Lucky Luke",
+  "Jolly Jumper",
+  "Rantanplan",
+  "Asterix",
+  "Obelix",
+  "Idefix",
+  "Yakari",
+  "Petit Tonnerre",
+  "Mickey Mouse",
+  "Donald Duck",
 
 
 ], []);
 
   // Initialisation des mots à utiliser
-  const [wordsList, setWordsList] = useState(allIslamicWords);
+  const [wordsList, setWordsList] = useState(personnagesDessinsAnimes);
 
   // Fonction de rafraichissement des mots a la fin de chaque jeu
   const [resetKey, setResetKey] = useState(0);
@@ -43,6 +94,7 @@ function App() {
   const [correctWords, setCorrectWords] = useState([]);
   const [remainingWords, setRemainingWords] = useState([]);
 
+  const handleRules = () => setScreen('rules');
   const handleStart = () => setScreen('game');
 
   const handleValidateRound = () => setScreen('roundInfo');
@@ -50,12 +102,13 @@ function App() {
  
   const handleNextTeam = () => setScreen('nextTeam');
 
+
   const handleNextRound = () => {
-    console.log(teamScores);
+   
     setCurrentRound(currentRound + 1);
     setCurrentTeam(currentTeam === 1 ? 2 : 1);
 
-    setScreen('game');
+    setScreen('rules');
   
   }
 
@@ -72,8 +125,6 @@ function App() {
 
  // Fonction pour gérer la fin d'un tour
   const handleEndTurn = (score,remainingWords, correctWords) => {
-
-  console.log('cest la fin du tour ' + remainingWords.length + 'le score de lequipe est de ' + score);
   
   // Crée une copie des scores actuels de la manche
   const newScores = [...roundScores];
@@ -83,17 +134,13 @@ function App() {
   // Met à jour les scores de la manche avec les nouveaux scores
   setRoundScores(newScores);
 
-  console.log('cest la manche actuelle ' + currentRound);
-  console.log('lequipe actuelle est ' + currentTeam);
-  console.log('le score de l\'equipe 1 est de ' + newScores[0] + ' et de l\'equipe 2 est de ' + newScores[1]);
 
   // Met à jour les mots restants avec les mots incorrects
-  setRemainingWords(remainingWords);
+  setRemainingWords(remainingWords.length ? remainingWords.sort(() => Math.random() - 0.5) : remainingWords);
 
   if(remainingWords !== undefined){
     // Vérifie s'il ne reste plus de mots à jouer
     if (remainingWords.length === 0) {
-      console.log('La partie est gagnee il reste ' + remainingWords);
       
       // Met à jour les scores des équipes avec les scores de la manche actuelle
       setTeamScores(newScores);
@@ -122,7 +169,7 @@ function App() {
 
   return (
     <div className="App">
-       {screen === 'start' && <StartScreen onStart={handleStart}/>}
+       {screen === 'start' && <StartScreen onRules={handleRules}/>}
        {screen === 'game' && (
         <WordsContext.Provider value={initialWords}>
           <GameScreen
@@ -155,6 +202,14 @@ function App() {
                     round={currentRound}
                     scores={teamScores}
                     onNextRound={handleNextRound}
+                    onRestart={handleRestart}
+                />
+            )}
+            {screen === 'rules' && (
+                <GameRules
+                    round={currentRound}
+                    currentTeam={currentTeam}
+                    onStart={handleStart}
                     onRestart={handleRestart}
                 />
             )}
