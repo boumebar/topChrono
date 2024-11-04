@@ -6,7 +6,6 @@ import TeamTurn from '../teamTurn/TeamTurn';
 export default function Card(props) {
 
 
-    console.log('jesuisla');
     // Liste complète des mots islamiques
     const allIslamicWords = useMemo(() => [
         "Coran", "Mosquée", "Ramadan", "Prière", "Hajj", "Prophète", "Mecque", "Médine", "Ayat", "Shahada",
@@ -49,7 +48,7 @@ export default function Card(props) {
         // Vérifier si tous les mots ont été affichés
         if (displayedWords.length === islamicWords.length) {
             // Tous les mots ont été affichés, arrêter le jeu
-          
+
             setCurrentWordIndex(null);
             setGameOver(true);
             return;
@@ -90,9 +89,9 @@ export default function Card(props) {
                 <>
                     <Chronometre comptearebours={40} gameOver={gameOver} onTimeUp={handleTimeUp} />
                     <div className="question">
-                {currentWordIndex !== null ? islamicWords[currentWordIndex] : "Jeu terminé!"}
-                <div className="number">{remainingCards}</div>
-            </div>
+                        {currentWordIndex !== null ? islamicWords[currentWordIndex] : "Jeu terminé!"}
+                        <div className="number">{remainingCards}</div>
+                    </div>
                     <div className="score">
                         <button className="circle correct" onClick={handleCorrectClick} disabled={currentWordIndex === null}>
                             <span>&#10004;</span>
