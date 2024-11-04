@@ -1,0 +1,12 @@
+.game-rules {
+    max-width: 60%;
+}
+
+.game-rules h2 {
+    color: #fff;
+    text-shadow: 
+    -3px -3px 0 #f3721c, /* ombre blanche en haut à gauche */
+      3px -3px 0 #f3721c, /* ombre blanche en haut à droite */
+    -3px  3px 0 #f3721c, /* ombre blanche en bas à gauche */
+      3px  3px 0 #f3721c; /* ombre blanche en bas à droite */
+}
