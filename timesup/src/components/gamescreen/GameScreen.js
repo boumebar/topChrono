@@ -9,7 +9,6 @@ export default function GameScreen({ round, team, onEndTurn,wordsForNextTurn }) 
 
     const initialsWords = useContext(WordsContext);
 
-    console.log('les mots sont :', initialsWords);
    // Initialise l'état 'words' comme un tableau vide. 
     // Cet état contiendra la liste des mots à utiliser pendant le jeu.
     const [words, setWords] = useState(initialsWords);
@@ -41,8 +40,6 @@ export default function GameScreen({ round, team, onEndTurn,wordsForNextTurn }) 
 
      // Log the updated words and remainingWords
      useEffect(() => {
-        console.log('Updated remainingWords:', remainingWords);
-        console.log('ilreste ' + remainingWords.length + ' mots'); 
     }, [ remainingWords, words]);
     // Fonction appelée lorsqu'une réponse correcte est donnée.
     // Passe simplement au mot suivant et ajoute le mot à la liste des mots correctement trouvés.
@@ -57,7 +54,6 @@ export default function GameScreen({ round, team, onEndTurn,wordsForNextTurn }) 
             const newScore = prevScore + 1;
 
             if (newRemainingWords.length === 0) {
-                console.log('il ne reste plus de mots');
                 onEndTurn(newScore, newRemainingWords, newCorrectWords);
             } else {
                 setCurrentWordIndex(0); // Always reset to 0 for simplicity

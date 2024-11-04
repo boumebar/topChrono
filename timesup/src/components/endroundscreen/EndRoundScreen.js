@@ -16,8 +16,6 @@ export default function EndRoundScreen({ round, scores,onNextRound,onRestart }) 
 
     const winner = determineWinner();
 
-    console.log('le score est : ' + scores);
-
     return (
         <div className="end-round-screen">
             <h1>{round === 3 ? 'Fin de partie' : 'Manche' + round}</h1>
