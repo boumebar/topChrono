@@ -1,10 +1,10 @@
 import './StartScreen.css';
 
-export default function StartScreen({ onStart }) {
+export default function StartScreen({ onRules }) {
     return (
         <div className="card">
-            <h1>Times Up</h1>
-            <button className="button" onClick={onStart}>C'est parti !</button>
+            <h1>Top chrono</h1>
+            <button className="button" onClick={onRules}>C'est parti !</button>
         </div>
     );
 }
